@@ -1,0 +1,11 @@
+.card {
+    margin-bottom: 1rem; /* Adjust card margins */
+  }
+  
+  .row {
+    margin: -0.5rem; /* Adjust row margins */
+  }
+  
+  .col-md-3 {
+    padding: 0.5rem; /* Adjust column padding */
+  }
