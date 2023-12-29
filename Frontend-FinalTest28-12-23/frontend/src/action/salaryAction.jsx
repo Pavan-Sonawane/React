@@ -5,6 +5,7 @@ export const fetchSalaries = () => async (dispatch) => {
   try {
     const response = await api.get('Salary');
     console.log("Fetch Salaries", response);
+
     dispatch({ type: actionTypes.FETCH_SALARY, payload: response.data });
   } catch (error) {
     console.error("Error fetching salaries:", error);

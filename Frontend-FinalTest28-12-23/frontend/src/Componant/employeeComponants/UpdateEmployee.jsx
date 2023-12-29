@@ -1,59 +1,62 @@
+
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { updateEmployee } from '../../action/employeeAction'; // Update with the correct path
+import { useDispatch, useSelector } from 'react-redux';
+import { updateEmployee } from '../../action/employeeAction';
 
-const UpdateEmployee = ({ employee, onUpdate, onCancel }) => {
+const UpdateEmployee = ({ initialValues, onUpdate, onCancel }) => {
   const dispatch = useDispatch();
+  const departments = useSelector((state) => state.departments.departments);
 
-  // Local state to track input values
-  const [name, setName] = useState(employee?.name || '');
-  const [email, setEmail] = useState(employee?.email || '');
-  const [phone, setPhone] = useState(employee?.phone || '');
-  const [gender, setGender] = useState(employee?.gender || '');
-  const [dob, setDob] = useState(employee?.dob || '');
+  const [name, setName] = useState(initialValues.name || '');
+  const [email, setEmail] = useState(initialValues.email || '');
+  const [phone, setPhone] = useState(initialValues.phone || '');
+  const [gender, setGender] = useState(initialValues.gender || '');
+  const [dob, setDob] = useState(initialValues.dob || '');
+  const [selectedDeptId, setSelectedDeptId] = useState(initialValues.deptId || '');
+  const [departmentName, setDepartmentName] = useState(initialValues.departmentName || '');
 
-  // Function to handle form submission
   const handleUpdateEmployee = () => {
-    // Validate input fields (add more validation if needed)
-    if (!name || !email || !phone || !gender || !dob) {
+    if (!name || !email || !phone || !gender || !dob || !selectedDeptId) {
       alert('Please fill in all required fields.');
       return;
     }
 
-    // Create an updated employee object with the input values
+    const selectedDepartment = departments.find((dept) => dept.id === selectedDeptId);
+    const selectedDepartmentName = selectedDepartment ? selectedDepartment.name : '';
+
     const updatedEmployee = {
-      ...employee,
+      ...initialValues,
       name,
       email,
       phone,
       gender,
       dob,
+      deptId: selectedDeptId,
+      departmentName: selectedDepartmentName,
     };
 
-    // Dispatch the updateEmployee action
-    dispatch(updateEmployee(employee.id, updatedEmployee));
+    dispatch(updateEmployee(initialValues.id, updatedEmployee));
 
-    // Notify the parent component about the update
     onUpdate();
 
-    // Clear the form fields after updating the employee
     setName('');
     setEmail('');
     setPhone('');
     setGender('');
     setDob('');
+    setSelectedDeptId('');
+    setDepartmentName('');
   };
 
   useEffect(() => {
-    // Set the local state when the employee prop changes
-    if (employee) {
-      setName(employee.name || '');
-      setEmail(employee.email || '');
-      setPhone(employee.phone || '');
-      setGender(employee.gender || '');
-      setDob(employee.dob || '');
-    }
-  }, [employee]);
+    setName(initialValues.name || '');
+    setEmail(initialValues.email || '');
+    setPhone(initialValues.phone || '');
+    setGender(initialValues.gender || '');
+    setDob(initialValues.dob || '');
+    setSelectedDeptId(initialValues.deptId || '');
+    setDepartmentName(initialValues.departmentName || '');
+  }, [initialValues, departments]);
 
   return (
     <div>
@@ -72,11 +75,39 @@ const UpdateEmployee = ({ employee, onUpdate, onCancel }) => {
       </div>
       <div>
         <label htmlFor="gender">Gender:</label>
-        <input type="text" id="gender" value={gender} onChange={(e) => setGender(e.target.value)} />
+        <select
+          id="gender"
+          value={gender}
+          onChange={(e) => setGender(e.target.value)}
+        >
+          <option value="">Select Gender</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
+        </select>
       </div>
       <div>
         <label htmlFor="dob">DOB:</label>
-        <input type="text" id="dob" value={dob} onChange={(e) => setDob(e.target.value)} />
+        <input type="datetime-local" id="dob" value={dob} onChange={(e) => setDob(e.target.value)} />
+      </div>
+      <div>
+        <label htmlFor="deptId">Department:</label>
+        <select
+          id="deptId"
+          value={selectedDeptId}
+          onChange={(e) => {
+            setSelectedDeptId(e.target.value);
+            const selectedDepartment = departments.find((dept) => dept.id === e.target.value);
+            setDepartmentName(selectedDepartment ? selectedDepartment.name : '');
+          }}
+        >
+          <option value="">Select Department</option>
+          {departments.map((dept) => (
+            <option key={dept.id} value={dept.id}>
+              {dept.name}
+            </option>
+          ))}
+        </select>
       </div>
       <button onClick={handleUpdateEmployee}>Update Employee</button>
       <button onClick={onCancel}>Cancel</button>

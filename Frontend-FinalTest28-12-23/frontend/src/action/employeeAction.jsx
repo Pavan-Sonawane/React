@@ -6,13 +6,14 @@ export const fetchEmployees = () => async (dispatch) => {
     const response = await api.get('Employee');
     console.log("Fetch Employees", response);
     
-    const employees = response.data['$values'];
+    const employees = response.data;
 
     dispatch({ type: actionTypes.FETCH_EMPLOYEE, payload: employees });
   } catch (error) {
     console.error("Error fetching employees:", error);
   }
 };
+
 
 export const addEmployee = (employee) => async (dispatch) => {
   try {
@@ -32,11 +33,22 @@ export const updateEmployee = (employeeId, employee) => async (dispatch) => {
   }
 };
 
+
 export const deleteEmployee = (id) => async (dispatch) => {
   try {
     await api.delete(`Employee/${id}`);
     dispatch({ type: actionTypes.DELETE_EMPLOYEE, payload: id });
   } catch (error) {
     console.error("Error deleting employee:", error);
+  }
+};
+
+
+export const addRegistration = (employee) => async (dispatch) => {
+  try {
+    const response = await api.post('Registration', employee);
+    dispatch({ type: actionTypes.ADD_REGISTRATION, payload: response.data });
+  } catch (error) {
+    console.error("Error adding employee:", error);
   }
 };

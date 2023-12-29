@@ -1,8 +1,6 @@
-// Import necessary dependencies
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addDepartment } from '../../action/DepartmentAction'; // Update with the correct path
-
+import { addDepartment } from '../../action/DepartmentAction'; 
 const AddDepartment = () => {
   const dispatch = useDispatch();
   const [departmentName, setDepartmentName] = useState('');
@@ -17,10 +15,8 @@ const AddDepartment = () => {
         name: departmentName.trim(),
       };
 
-      // Dispatch the action to add the department
       dispatch(addDepartment(newDepartment));
 
-      // Clear the input field after adding the department
       setDepartmentName('');
     } else {
       alert('Please enter a valid department name');

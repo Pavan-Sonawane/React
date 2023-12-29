@@ -8,6 +8,7 @@ const departmentReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.FETCH_DEPARTMENT:
       return { ...state, departments: action.payload };
+    
     case actionTypes.ADD_DEPARTMENT:
       return { ...state, departments: [...state.departments, action.payload] };
     case actionTypes.UPDATE_DEPARTMENT:

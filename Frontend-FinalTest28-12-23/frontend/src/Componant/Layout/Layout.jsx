@@ -20,28 +20,35 @@ import CategoryIcon from '@mui/icons-material/Category';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import SearchIcon from '@mui/icons-material/Search';
-
+import { useNavigate } from 'react-router-dom';
+import Logout from '../Authentication/Logout';
 const Layout = () => {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
-
+  const navigate = useNavigate();
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
   };
-
+  const handleLogout = () => {
+   
+    navigate('/login');
+  };
   return (
     <>
       <AppBar position="static" color="primary">
-        <Container>
-          <Toolbar>
+      <Container>
+        <Toolbar style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
             <IconButton color="inherit" onClick={toggleDrawer} edge="start">
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" sx={{ flexGrow: 1 }}>
-             Employee Management
+              Employee Management
             </Typography>
-          </Toolbar>
-        </Container>
-      </AppBar>
+          </div>
+          <Logout onLogout={handleLogout} />
+        </Toolbar>
+      </Container>
+    </AppBar>
 
       <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer}>
         <List>
@@ -52,30 +59,16 @@ const Layout = () => {
           <ListItem button component={RouterLink} to="/employee">
             <ListItemText primary="Employee" />
           </ListItem>
-          <ListItem button component={RouterLink} to="/add-product">
-            <ListItemText primary="Order Item List" />
-            <AddBoxIcon />
+          <ListItem button component={RouterLink} to="/salary">
+            <ListItemText primary="Salary" />
+           
           </ListItem>
-          <ListItem button component={RouterLink} to="/orders">
-            <ListItemText primary="Orders" />
-            <AssignmentIcon />
+          <ListItem button component={RouterLink} to="/search">
+            <ListItemText primary="All Search" />
+            
           </ListItem>
-          <ListItem button component={RouterLink} to="/category">
-            <ListItemText primary="My Category" />
-            <CategoryIcon />
-          </ListItem>
-          <ListItem button component={RouterLink} to="/cart">
-            <ListItemText primary="My Cart" />
-            <ShoppingCartIcon />
-          </ListItem>
-          <ListItem button component={RouterLink} to="/carts">
-            <ListItemText primary="Order ID Search" />
-            <SearchIcon />
-          </ListItem>
-          <ListItem button component={RouterLink} to="/cartss">
-            <ListItemText primary="Cart ID Search" />
-            <SearchIcon />
-          </ListItem>
+       
+          
         </List>
       </Drawer>
 

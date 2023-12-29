@@ -6,7 +6,7 @@ export const fetchDepartments = () => async (dispatch) => {
   try {
     const response = await api.get('Department');
     console.log("Fetch Department", response);
-    dispatch({ type: actionTypes.FETCH_DEPARTMENT, payload: response.data.$values });
+    dispatch({ type: actionTypes.FETCH_DEPARTMENT, payload: response.data });
   } catch (error) {
     console.error("Error fetching departments:", error);
   }
