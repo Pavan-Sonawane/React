@@ -2,7 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateSalary } from '../../action/salaryAction';
 import { fetchEmployees } from '../../action/employeeAction';
-
+import {
+  Card,
+  CardContent,
+  Typography,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  TextField,
+  Button,
+} from '@mui/material';
 const UpdateSalary = ({ initialValues, onUpdate }) => {
   const dispatch = useDispatch();
   const [eid, setId] = useState(initialValues.id);
@@ -37,37 +47,58 @@ const UpdateSalary = ({ initialValues, onUpdate }) => {
   }, [initialValues]);
 
   return (
-    <div>
-      <h2>Update Salary</h2>
+    <Card sx={{ maxWidth: 400, margin: 'auto', marginTop: 20 }}>
+    <CardContent>
+      <Typography variant="h5" component="div">
+        Update Salary
+      </Typography>
       {/* <div>
         <label htmlFor="eid">Salary ID:</label>
         <input type="number" id="eid" value={eid} onChange={(e) => setId(e.target.value)} />
       </div> */}
       <div>
-        <label htmlFor="empId">Employee Name:</label>
-        <select
-          id="empId"
-          value={empId}
-          onChange={(e) => setEmpId(e.target.value)}
-        >
-          <option value="">Select Employee</option>
-          {employees.map((employee) => (
-            <option key={employee.id} value={employee.id}>
-              {employee.name}
-            </option>
-          ))}
-        </select>
+        <FormControl fullWidth>
+          <InputLabel htmlFor="empId">Employee Name:</InputLabel>
+          <Select
+            id="empId"
+            value={empId}
+            label="Employee Name"
+            onChange={(e) => setEmpId(e.target.value)}
+          >
+            <MenuItem value="">Select Employee</MenuItem>
+            {employees.map((employee) => (
+              <MenuItem key={employee.id} value={employee.id}>
+                {employee.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
       </div>
       <div>
-        <label htmlFor="amount">Amount:</label>
-        <input type="number" id="amount" value={amount} onChange={(e) => setAmount(e.target.value)} />
+        <TextField
+          fullWidth
+          id="amount"
+          label="Amount"
+          type="number"
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
+        />
       </div>
       <div>
-        <label htmlFor="date">Date:</label>
-        <input type="datetime-local" id="date" value={date} onChange={(e) => setDate(e.target.value)} />
+        <TextField
+          fullWidth
+          id="date"
+          label="Date"
+          type="datetime-local"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+        />
       </div>
-      <button onClick={handleUpdateSalary}>Update Salary</button>
-    </div>
+      <Button variant="contained" color="primary" onClick={handleUpdateSalary} style={{ marginTop: '20px' }}>
+        Update Salary
+      </Button>
+    </CardContent>
+  </Card>
   );
 };
 

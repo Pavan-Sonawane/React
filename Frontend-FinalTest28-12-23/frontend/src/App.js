@@ -1,41 +1,5 @@
-// import './App.css';
-// import { Provider } from 'react-redux';
-// import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-// import Layout from './Componant/Layout/Layout';
-// import store from './store/store';
-// import ListDepartment from './Componant/departmentComponants/ListDepartment';
-// import EmployeeList from './Componant/employeeComponants/EmployeeList';
-// import SalaryList from './Componant/salaryComponant/SalaryList';
-// import AllSearch from './Componant/searchComponant/AllSearch';
-// import AllAuth from './Componant/Authentication/AllAuth';
-// import Login from './Componant/Authentication/Login';
 
-// function App() {
-//   return (
-//     <Provider store={store}>
-//       <Router>
-//         <div className="App">
-//           <Routes>
-
-//             <Route path="/" element={<Layout />}>
-//              <Route path="/" element={<ListDepartment/>} />
-//              <Route path="employee" element={<EmployeeList/>} />
-//              <Route path="salary" element={<SalaryList/>} />
-//              <Route path="search" element={<AllSearch/>} />
-//              <Route path="Register" element={<AllAuth/>} />
-//              <Route path="login" element={<Login/>} />
-
-//           </Route>
-//         </Routes>
-//         </div>
-//       </Router>
-//     </Provider>
-//   );
-// }
-
-// export default App;
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
@@ -44,18 +8,23 @@ import store from './store/store';
 import ListDepartment from './Componant/departmentComponants/ListDepartment';
 import EmployeeList from './Componant/employeeComponants/EmployeeList';
 import SalaryList from './Componant/salaryComponant/SalaryList';
-import AllSearch from './Componant/searchComponant/AllSearch';
 import AllAuth from './Componant/Authentication/AllAuth';
 import Login from './Componant/Authentication/Login';
 import Registration from './Componant/Authentication/Registration';
 
 function App() {
-  const [isLoggedIn, setLoggedIn] = useState(false);
+  const [isLoggedIn, setLoggedIn] = useState(() => {
+    return localStorage.getItem('isLoggedIn') === 'true';
+  });
 
-  // Function to set the authentication status
   const handleLoginSuccess = () => {
     setLoggedIn(true);
+    localStorage.setItem('isLoggedIn', 'true');
   };
+
+  useEffect(() => {
+    return () => localStorage.removeItem('isLoggedIn');
+  }, []);
 
   return (
     <Provider store={store}>
@@ -78,14 +47,8 @@ function App() {
                 path="salary"
                 element={isLoggedIn ? <SalaryList /> : <Navigate to="/login" replace />}
               />
-              <Route
-                path="search"
-                element={isLoggedIn ? <AllSearch /> : <Navigate to="/login" replace />}
-              />
-              <Route
-                path="Register"
-                element={isLoggedIn ? <AllAuth /> : <Navigate to="/login" replace />}
-              />
+              
+              
             </Route>
 
             <Route

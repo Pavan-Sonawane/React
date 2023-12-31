@@ -3,7 +3,14 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addEmployee } from '../../action/employeeAction';
 import { fetchDepartments } from '../../action/DepartmentAction';
-
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
 const AddEmployee = () => {
   const dispatch = useDispatch();
   const departments = useSelector((state) => state.departments.departments);
@@ -51,62 +58,62 @@ const AddEmployee = () => {
     setDepartmentName('');
   };
 
-  return (
-    <div>
-      <h2>Add Employee</h2>
-      <div>
-        <label htmlFor="name">Name:</label>
-        <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} />
-      </div>
-      <div>
-        <label htmlFor="email">Email:</label>
-        <input type="text" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-      </div>
-      <div>
-        <label htmlFor="phone">Phone:</label>
-        <input type="text" id="phone" value={phone} onChange={(e) => setPhone(e.target.value)} />
-      </div>
-      <div>
-        <label htmlFor="gender">Gender:</label>
-        <select
-            id="gender"
-            value={gender}
-            onChange={(e) => setGender(e.target.value)}
-        >
-            <option value="">Select Gender</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-            <option value="Other">Other</option>
-        </select>
-        </div>
+  return  (
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <Card style={{ maxWidth: '400px', width: '100%', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
+        <CardContent>
+          <h2 style={{ textAlign: 'center', marginBottom: '16px' }}>Add Employee</h2>
 
-      <div>
-        <label htmlFor="dob">DOB:</label>
-        <input type="datetime-local" id="dob" value={dob} onChange={(e) => setDob(e.target.value)} />
-      </div>
-      <div>
-        <label htmlFor="deptId">Department:</label>
-        <select
-          id="deptId"
-          value={selectedDeptId}
-          onChange={(e) => {
-            setSelectedDeptId(e.target.value);
-            const selectedDepartment = departments.find((dept) => dept.id === e.target.value);
-            setDepartmentName(selectedDepartment ? selectedDepartment.name : '');
-          }}
-        >
-          <option value="">Select Department</option>
-          {departments.map((dept) => (
-            <option key={dept.id} value={dept.id}>
-              {dept.name}
-            </option>
-          ))}
-        </select>
-      </div>
-      
-      <button onClick={handleAddEmployee}>Add Employee</button>
+          <TextField label="Name" value={name} onChange={(e) => setName(e.target.value)} fullWidth margin="normal" />
+          <TextField label="Email" value={email} onChange={(e) => setEmail(e.target.value)} fullWidth margin="normal" />
+          <TextField label="Phone" value={phone} onChange={(e) => setPhone(e.target.value)} fullWidth margin="normal" />
+
+          <FormControl fullWidth margin="normal">
+            <InputLabel htmlFor="gender">Gender</InputLabel>
+            <Select
+              id="gender"
+              value={gender}
+              onChange={(e) => setGender(e.target.value)}
+              label="Gender"
+            >
+              <MenuItem value="">Select Gender</MenuItem>
+              <MenuItem value="Male">Male</MenuItem>
+              <MenuItem value="Female">Female</MenuItem>
+              <MenuItem value="Other">Other</MenuItem>
+            </Select>
+          </FormControl>
+
+          <TextField  type="datetime-local" value={dob} onChange={(e) => setDob(e.target.value)} fullWidth margin="normal" />
+
+          <FormControl fullWidth margin="normal">
+            <InputLabel htmlFor="deptId">Department</InputLabel>
+            <Select
+              id="deptId"
+              value={selectedDeptId}
+              onChange={(e) => {
+                setSelectedDeptId(e.target.value);
+                const selectedDepartment = departments.find((dept) => dept.id === e.target.value);
+                setDepartmentName(selectedDepartment ? selectedDepartment.name : '');
+              }}
+              label="Department"
+            >
+              <MenuItem value="">Select Department</MenuItem>
+              {departments.map((dept) => (
+                <MenuItem key={dept.id} value={dept.id}>
+                  {dept.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
+          <Button variant="contained" color="primary" onClick={handleAddEmployee} style={{ marginTop: '16px' }}>
+            Add Employee
+          </Button>
+        </CardContent>
+      </Card>
     </div>
   );
 };
+
 
 export default AddEmployee;

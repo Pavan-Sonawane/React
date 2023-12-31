@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { TextField, Button, Card, CardContent } from '@mui/material';
 
 const UpdateDepartment = ({ department, onUpdateDepartment, onCancel ,id}) => {
   const [updatedName, setUpdatedName] = useState(department.name);
@@ -21,20 +22,30 @@ const UpdateDepartment = ({ department, onUpdateDepartment, onCancel ,id}) => {
   
 
   return (
-    <div>
-      <h2>Update Department</h2>
-      <div>
-        <label htmlFor="updatedName">Updated Department Name:</label>
-        <input
-          type="text"
+    <Card sx={{ maxWidth: 400, margin: 'auto', marginTop: 20 }}>
+      <CardContent>
+        <h2>Update Department</h2>
+        <TextField
+          label="Updated Department Name"
           id="updatedName"
           value={updatedName}
           onChange={handleInputChange}
+          fullWidth
+          margin="normal"
         />
-      </div>
-      <button onClick={handleUpdateClick}>Update</button>
-      <button onClick={onCancel}>Cancel</button>
-    </div>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleUpdateClick}
+          style={{ marginTop: 10, marginRight: 10 }}
+        >
+          Update
+        </Button>
+        <Button variant="outlined" onClick={onCancel} style={{ marginTop: 10 }}>
+          Cancel
+        </Button>
+      </CardContent>
+    </Card>
   );
 };
 

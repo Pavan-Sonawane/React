@@ -14,12 +14,7 @@ import {
   Container,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import HomeIcon from '@mui/icons-material/Home';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import CategoryIcon from '@mui/icons-material/Category';
-import AssignmentIcon from '@mui/icons-material/Assignment';
-import AddBoxIcon from '@mui/icons-material/AddBox';
-import SearchIcon from '@mui/icons-material/Search';
+
 import { useNavigate } from 'react-router-dom';
 import Logout from '../Authentication/Logout';
 const Layout = () => {
@@ -53,8 +48,8 @@ const Layout = () => {
       <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer}>
         <List>
           <ListItem button component={RouterLink} to="/">
-            <ListItemText primary="Home" />
-            <HomeIcon />
+            <ListItemText primary="Department" />
+            
           </ListItem>
           <ListItem button component={RouterLink} to="/employee">
             <ListItemText primary="Employee" />
@@ -63,12 +58,7 @@ const Layout = () => {
             <ListItemText primary="Salary" />
            
           </ListItem>
-          <ListItem button component={RouterLink} to="/search">
-            <ListItemText primary="All Search" />
-            
-          </ListItem>
-       
-          
+         
         </List>
       </Drawer>
 

@@ -4,12 +4,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchDepartments, updateDepartment, deleteDepartment } from '../../action/DepartmentAction';
 import AddDepartment from './AddDepartmant';
 import UpdateDepartment from './UpdateDepartment';
-
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Button,
+} from '@mui/material';
 const ListDepartment = () => {
   const dispatch = useDispatch();
   const departments = useSelector((state) => state.departments.departments);
   const [selectedDepartment, setSelectedDepartment] = useState(null);
-
+  const [isAddEmployeeVisible, setAddEmployeeVisible] = useState(false);
+  const handleToggleAddEmployee = () => {
+    setAddEmployeeVisible((prevVisible) => !prevVisible);
+  };
   useEffect(() => {
     dispatch(fetchDepartments());
   }, [dispatch]);
@@ -31,27 +43,54 @@ const ListDepartment = () => {
 
   return (
     <div>
-      <AddDepartment />
-      <h2>Department List</h2>
-      <ul>
-  {departments.map((department) => (
-    <li key={department.id}>
-      <strong>{department.name}</strong>
-      <button onClick={() => handleUpdateClick(department)}>Update</button>
-      <button onClick={() => handleDeleteClick(department.id)}>Delete</button>
-     
-    </li>
-  ))}
-</ul>
-      {/* Render the UpdateDepartment component */}
-      {selectedDepartment && (
-        <UpdateDepartment
-          department={selectedDepartment}
-          onUpdateDepartment={handleUpdateDepartment}
-          onCancel={() => setSelectedDepartment(null)}
-        />
-      )}
-    </div>
+    <Button variant="contained" color="primary" onClick={handleToggleAddEmployee}>
+        {isAddEmployeeVisible ? 'Close' : 'Insert Department'}
+      </Button>
+
+      {isAddEmployeeVisible && <AddDepartment />}
+    <h2>Department List</h2>
+    <TableContainer component={Paper}>
+      <Table>
+        <TableHead style={{ backgroundColor: '#2196f3', color: 'white' }}>
+          <TableRow>
+            <TableCell>Name</TableCell>
+            <TableCell>Actions</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {departments.map((department) => (
+            <TableRow key={department.id}>
+              <TableCell>{department.name}</TableCell>
+              <TableCell>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => handleUpdateClick(department)}
+                >
+                  Update
+                </Button>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => handleDeleteClick(department.id)}
+                >
+                  Delete
+                </Button>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+
+    {selectedDepartment && (
+      <UpdateDepartment
+        department={selectedDepartment}
+        onUpdateDepartment={handleUpdateDepartment}
+        onCancel={() => setSelectedDepartment(null)}
+      />
+    )}
+  </div>
   );
 };
 

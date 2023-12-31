@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addDepartment } from '../../action/DepartmentAction'; 
+import { addDepartment } from '../../action/DepartmentAction';
+import { Card, CardContent, TextField, Button } from '@mui/material';
+
 const AddDepartment = () => {
   const dispatch = useDispatch();
   const [departmentName, setDepartmentName] = useState('');
@@ -24,19 +26,29 @@ const AddDepartment = () => {
   };
 
   return (
-    <div>
+    <Card sx={{ maxWidth: 400, margin: 'auto', marginTop: 20 }}>
+    <CardContent>
       <h2>Add Department</h2>
       <div>
-        <label htmlFor="departmentName">Department Name:</label>
-        <input
-          type="text"
+        <TextField
+          label="Department Name"
           id="departmentName"
           value={departmentName}
           onChange={handleInputChange}
+          fullWidth
+          margin="normal"
         />
       </div>
-      <button onClick={handleAddDepartment}>Add Department</button>
-    </div>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleAddDepartment}
+        style={{ marginTop: 10 }}
+      >
+        Add Department
+      </Button>
+    </CardContent>
+  </Card>
   );
 };
 
